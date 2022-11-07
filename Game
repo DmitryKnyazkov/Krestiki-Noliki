@@ -1,0 +1,323 @@
+import random
+import pprint
+
+def proverka_pobedy_X(pole: list) -> bool:
+
+    """ Данная функция проверяет поле на присутствие в ней выйграшной комбинации крестиков.
+    По очередно переберает яцейки в разных направлениях. Eсли выйграшная комбинация есть, то
+    она возращает True, если нет - False
+
+    :param pole:
+    :return: bool
+    """
+
+    pobeda_X = f"Победа игрока {player1}, который играл за крестики!"
+    for stolbcy in range(3):    #Победные комбинации для строк Х
+        i = 0
+        for stroki in range(3):
+            if pole[stolbcy][stroki] == "X":
+                i += 1
+            if i == 3:
+                print(pobeda_X)
+                return True
+
+
+    for stolbcy in range(3): #Победные комбинации для столбцов Х
+        i = 0
+        for stroki in range(3):
+            if pole[stroki][stolbcy] == "X":
+                i += 1
+            if i == 3:
+                print(pobeda_X)
+                return True
+
+    for stolbcy in range(1): #Победная комбтнация для первой диаганали Х
+        i = 0
+        for stroki in range(3):
+            if pole[stroki][stroki] == "X":
+                i += 1
+            if i == 3:
+                print(pobeda_X)
+                return True
+
+
+    for stolbcy in range(1): #Победная комбтнация для второй диаганали Х
+        i = 0
+        for stroki in range(3):
+            if pole[stroki][-stroki + 2] == "X":
+                i += 1
+            if i == 3:
+                print(pobeda_X)
+                return True
+    return False
+
+
+def proverka_pobedy_O(pole: list) -> bool:
+    """ Данная функция проверяет поле на присутствие в ней выйграшной комбинации ноликов.
+        По очередно переберает яцейки в разных направлениях. Eсли выйграшная комбинация есть, то
+        она возращает True, если нет - False
+
+        :param pole:
+        :return: bool
+        """
+    pobeda_O = f"Победа игрока {player2}, который играл за нолики!"
+    for stolbcy in range(3):  # Победные комбинации для строк Х
+        i = 0
+        for stroki in range(3):
+            if pole[stolbcy][stroki] == "O":
+                i += 1
+            if i == 3:
+                print(pobeda_O)
+                return True
+
+    for stolbcy in range(3):  # Победные комбинации для столбцов Х
+        i = 0
+        for stroki in range(3):
+            if pole[stroki][stolbcy] == "O":
+                i += 1
+            if i == 3:
+                print(pobeda_O)
+                return True
+
+    for stolbcy in range(1):  # Победная комбтнация для первой диаганали Х
+        i = 0
+        for stroki in range(3):
+            if pole[stroki][stroki] == "O":
+                i += 1
+            if i == 3:
+                print(pobeda_O)
+                return True
+
+    for stolbcy in range(1):  # Победная комбтнация для второй диаганале Х
+        i = 0
+        for stroki in range(3):
+            if pole[stroki][-stroki + 2] == "O":
+                i += 1
+            if i == 3:
+                print(pobeda_O)
+                return True
+    return False
+
+
+def prverka_svobodnogo_poly(pole, x, y):
+    if pole[y][x] == " ":
+        return True
+    else:
+        print("Эта ячейка занята! Переходите!")
+    return False
+
+def proverka_nechi(pole: list) -> bool:
+    """
+    Функцая проверяет присутствие в поле хотя бы одной
+    свободной ячейки. Если такой нет, то возвращает True, если есть - False
+    :param pole:
+    :return: bool
+    """
+    schet = 0
+    for stroki in pole:
+        if " " not in stroki:
+            schet += 1
+
+        if schet == 3:
+            print("Ходов больше нет. Ничья!")
+            return True
+    return False
+
+
+
+
+def prjverka_korrekt_vvoda(znach: int) -> bool:
+    """
+    Функция проверяет отсутствие ввода, присутствие знаков и букв, введение цифор в диапозоне от 1 до 3.
+    :param znach:
+    :return: bool
+    """
+
+    if not znach:
+        return False
+
+    if not znach.isdigit():
+        print("Вводить можно только цифры!")
+
+        return False
+
+    znach = int(znach)
+    if znach <= 0 or znach > 3:
+        print("Неверный диапозон. Вы должны ввести число от 1 до 3")
+
+        return False
+
+    return True
+
+
+def vybor_simvola_igroka(player1: str, player2: str) -> list:
+    """
+    Функция принемает имена игроков. засовывает их в list, перемешивает очередность.
+    Тем самым в дальнейшем будет определен игрок за крестиков (он первый в списке)
+    и игрок за ноликов (он второй).
+    :param player1:
+    :param player2:
+    :return: list
+    """
+    list_ = [player1, player2]
+    random.shuffle(list_)
+    return list_
+
+def otrisovka_polya(pole: list[list]) -> print():
+    """
+    Функция отрисовывает в консоли поле
+    :param pole:
+    :return: print
+    """
+    for stroki in pole:
+        print(stroki)
+
+
+
+def hod_player1(pole: list):
+    """
+    Функция отвечает за ход первого игрока - крестика. Если это компьютер, то вызывается функция
+    искусственного интеллектища. Если человек, то проверяет через соответствующие функции
+    корректность введенных данных, свободную ячейку. Функция ничего не возращает, но
+    переписывает поле, с новой заполненной ячейкой
+    :param pole:
+    :return:
+    """
+    if player1 != "Компьютер":
+        print(f"Ход игрока {player1} Х")
+        x = ""
+        while not prjverka_korrekt_vvoda(x):
+            x = input("Введите координату по Горизонтали (от 1 до 3): ")
+        x = int(x)
+        y = ""
+        while not prjverka_korrekt_vvoda(y):
+            y = input("Введите координату по Вертикали (от 1 до 3): ")
+        y = int(y)
+
+        if prverka_svobodnogo_poly(pole, x-1, y-1):
+            pole[y-1][x-1] = "X"
+            #otrisovka_polya(pole)
+        else:
+            hod_player1(pole)
+    else:
+        list_koord = iskusstvennyi_intellektishe(pole)
+        u = list_koord[0]
+        v = list_koord[1]
+        pole[u][v] = "X"
+
+
+def iskusstvennyi_intellektishe(pole: list[list]) -> list:
+    """
+    Функция отделяет принтами верхнее и нижнее поле в консоле. Рандомно
+    выдает координаты в поле, куда в последствии будет установлен крестик или нолик.
+    проверяет поле на отсутствие по этой координате заполненной ячейки. возращает список
+    с двумя координатами.
+    :param pole:
+    :return: list
+    """
+
+    print(f'{"*":*^40}')
+    print(f'{"   Ниже ход КОМПЬЮТЕРА   ":*^40}')
+    print(f'{"*":*^40}')
+
+
+    garizont_koord = random.randint(0, 2)
+    vertikal_koord = random.randint(0, 2)
+    while pole[vertikal_koord][garizont_koord] != " ":
+        garizont_koord = random.randint(0, 2)
+        vertikal_koord = random.randint(0, 2)
+
+    return [vertikal_koord, garizont_koord]
+
+
+def hod_player2(pole):
+    """
+        Функция отвечает за ход второго игрока - нолика. Если это компьютер, то вызывается функция
+        искусственного интеллектища. Если человек, то проверяет через соответствующие функции
+        корректность введенных данных, свободную ячейку. Функция ничего не возращает, но
+        переписывает поле, с новой заполненной ячейкой
+        :param pole:
+        :return:
+        """
+    if player2 != "Компьютер":
+        print(f"Ход игрока {player2} O")
+        x = ""
+        while not prjverka_korrekt_vvoda(x):
+            x = input("Введите координату по Горизонтали (от 1 до 3): ")
+        x = int(x)
+        y = ""
+        while not prjverka_korrekt_vvoda(y):
+            y = input("Введите координату по Вертикали (от 1 до 3): ")
+        y = int(y)
+        if prverka_svobodnogo_poly(pole, x-1, y-1):
+            pole[y-1][x-1] = "O"
+        else:
+            hod_player2(pole)
+    else:
+        list_koord = iskusstvennyi_intellektishe(pole)
+        u = list_koord[0]
+        v = list_koord[1]
+        pole[u][v] = "O"
+
+
+
+
+
+pole = [
+    [" ", " ", " "], # иницилезация поля
+    [" ", " ", " "],
+    [" ", " ", " "]
+]
+
+computer_ = ""
+while not computer_:   # запрос о желании сыграть с компьютером
+    while computer_ not in ["да", "нет"]:
+        computer_ = input('Вы хотели бы сыграть с компютером? Напишите "да" если согласны. Если напишите "нет", то вы будите играть с партнером: ')
+        computer_ = computer_.lower()
+
+
+player1 = "" # ввод имен играков
+while not player1:
+    player1 = input("Введите имя играка: ")
+    if len(player1) > 10:
+        print("Слишком длинное имя. Введите имя не более 10 символов. ")
+        player1 = ""
+
+if computer_ == "нет":
+    player2 = ""
+    while not player2:
+        player2 = input("Введите имя второго играка: ")
+        if len(player2) > 10:
+            print("Слишком длинное имя. Введите имя не более 10 символов. ")
+            player2 = ""
+else:
+    player2 = "Компьютер"
+
+
+list_igrokov = vybor_simvola_igroka(player1,player2) # элемент определения символа и очередности играков
+player1 = list_igrokov[0]
+player2 = list_igrokov[1]
+
+pprint.pprint(f'Добрый день! Начнем игру "крестики нолики". Мы случайным образом определили кто будет крестиком, а кто ноликом. {player1} будет крестиком. Он будет ходить первым. {player2} будет ноликом. Он отвечает.')
+
+for _ in range(9): # Игра
+    otrisovka_polya(pole)
+    hod_player1(pole)
+    if proverka_pobedy_X(pole):
+        break
+    if proverka_nechi(pole):
+        break
+    otrisovka_polya(pole)
+    hod_player2(pole)
+
+    if proverka_pobedy_O(pole):
+        break
+    if proverka_nechi(pole):
+        break
+
+otrisovka_polya(pole)
+print("Игра закончена!")
+input('Нажмите "Enter", и игра закроется  ') # это нужно только чтобы консоль после окончания игры не закрывалась
+                                            # давала возможность игроку прочитать инфу о победе или ничьей.
+
+
